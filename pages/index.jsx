@@ -3,26 +3,50 @@ import headlinesApi from '@queries/headlines'
 
 export default function Home({data: {articles}}) {
   return (
-   <div>
-     <header className='flex justify-center prose-2xl py-10'>
-        <h1>Newsly</h1>
-     </header>
-     <main  className='flex flex-wrap'>
-       {articles.map( ({ author, title, description, url, urlToImage, publishedAt, content}) => 
-       <div className='w-96 flex-auto' key={`${author}${title}`}>
-         <img className='w-full h-1/2' src={urlToImage} alt={title}></img>
-         <div className='flex flex-col'>
-            <a href={url} target="_blank" rel="noreferrer noopener">{title}</a>
-            <span>{description}</span>
-            <div className='flex'>
-              <span>{author}</span>
-              <span>{publishedAt}</span>
-            </div>
-            <p>{content}</p>
-         </div>
-       </div>)}
-     </main>
-   </div>
+      <div>
+          <header className="flex justify-center prose-2xl py-10">
+              <h1>Newsly</h1>
+          </header>
+          <main className="flex flex-wrap">
+              {articles.map(
+                  ({
+                      author,
+                      title,
+                      description,
+                      url,
+                      urlToImage,
+                      publishedAt,
+                      content,
+                  }) => (
+                      <div
+                          className="w-96 m-2 p-3 flex-auto bg-gray-200 rounded-lg flex flex-col"
+                          key={`${author}${title}`}
+                      >
+                          <img
+                              className="w-full rounded-lg"
+                              src={urlToImage}
+                              alt={title}
+                          ></img>
+                          <div className="flex flex-col">
+                              <a
+                                  href={url}
+                                  target="_blank"
+                                  rel="noreferrer noopener"
+                              >
+                                  {title}
+                              </a>
+                              <span>{description}</span>
+                              <div className="flex">
+                                  <span>{author}</span>
+                                  <span>{publishedAt}</span>
+                              </div>
+                              <p className="text-ellipsis">{content}</p>
+                          </div>
+                      </div>
+                  )
+              )}
+          </main>
+      </div>
   )
 }
 
