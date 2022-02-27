@@ -1,13 +1,49 @@
+import PropTypes from 'prop-types'
 import headlinesApi from '@queries/headlines'
 
-export default function Home({data}) {
+export default function Home({data: {articles}}) {
   return (
-   <main>
-     <header>
-        <h1>Hello World</h1>
+   <div>
+     <header className='flex justify-center prose-2xl py-10'>
+        <h1>Newsly</h1>
      </header>
-   </main>
+     <main  className='flex flex-wrap'>
+       {articles.map( ({ author, title, description, url, urlToImage, publishedAt, content}) => 
+       <div className='w-96 flex-auto' key={`${author}${title}`}>
+         <img className='w-full h-1/2' src={urlToImage} alt={title}></img>
+         <div className='flex flex-col'>
+            <a href={url} target="_blank" rel="noreferrer noopener">{title}</a>
+            <span>{description}</span>
+            <div className='flex'>
+              <span>{author}</span>
+              <span>{publishedAt}</span>
+            </div>
+            <p>{content}</p>
+         </div>
+       </div>)}
+     </main>
+   </div>
   )
+}
+
+Home.propTypes = {
+  data: PropTypes.shape({
+    status: PropTypes.string,
+    totalResults: PropTypes.number,
+    articles: PropTypes.arrayOf(PropTypes.shape({
+      source: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string
+      }),
+      author: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string,
+      url: PropTypes.string,
+      urlToImage: PropTypes.string,
+      publishedAt: PropTypes.string,
+      content: PropTypes.string,
+    }))
+  }).isRequired
 }
 
 export async function getStaticProps(){
