@@ -7,7 +7,7 @@ export default function Home({ data: { articles } }) {
             <header className="flex justify-center prose-2xl py-10">
                 <h1>Newsly</h1>
             </header>
-            <main className="flex flex-wrap">
+            <main className="flex flex-wrap justify-evenly">
                 {articles.map(
                     ({
                         author,
@@ -34,11 +34,11 @@ export default function Home({ data: { articles } }) {
                         })
                         return (
                             <div
-                                className="w-96 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col"
+                                className="w-96 m-2 p-3 bg-gray-200 rounded-lg flex flex-col"
                                 key={`${author}${title}`}
                             >
                                 <img
-                                    className="w-full rounded-lg"
+                                    className="max-h-96 w-96 rounded-lg"
                                     src={urlToImage}
                                     alt={title}
                                 ></img>
