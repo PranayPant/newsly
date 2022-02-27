@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types'
+import Head from 'next/head'
 import headlinesApi from '@queries/headlines'
 
 export default function Home({ data: { articles } }) {
     return (
         <div>
-            <header className="flex justify-center prose-2xl py-10">
+            <Head>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                />
+                <title>Newsly</title>
+            </Head>
+            <header className="flex justify-center sm:text-9xl text-6xl py-10">
                 <h1>Newsly</h1>
             </header>
             <main className="flex flex-wrap justify-evenly">
@@ -34,11 +42,11 @@ export default function Home({ data: { articles } }) {
                         })
                         return (
                             <div
-                                className="w-96 m-2 p-3 bg-gray-200 rounded-lg flex flex-col"
+                                className="sm:w-96 w-72 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col"
                                 key={`${author}${title}`}
                             >
                                 <img
-                                    className="max-h-96 w-96 rounded-lg"
+                                    className="rounded-lg"
                                     src={urlToImage}
                                     alt={title}
                                 ></img>
