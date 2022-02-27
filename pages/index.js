@@ -10,10 +10,10 @@ export default function Home({ data: { articles } }) {
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"
                 />
-                <title>Newsly</title>
+                <title>Newsly: The News Hub</title>
             </Head>
-            <header className="flex justify-center sm:text-9xl text-6xl py-10">
-                <h1>Newsly</h1>
+            <header className="flex justify-center text-center sm:text-9xl text-6xl py-10">
+                <h1>Newsly: The News Hub</h1>
             </header>
             <main className="flex flex-wrap justify-evenly">
                 {articles.map(
