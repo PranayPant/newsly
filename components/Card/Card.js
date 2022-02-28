@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import Socials from '@components/Socials'
 
 const Card = ({
     article: { author, title, description, url, urlToImage, publishedAt },
@@ -28,9 +29,14 @@ const Card = ({
                 </a>
 
                 <span className="flex-auto pt-5 text-lg">{description}</span>
-                <span className="pt-3 inline-flex self-end text-xs">
-                    Updated at {modPublishedAt}
-                </span>
+                <div className="flex pt-3">
+                    <div className="flex-auto">
+                        <Socials url={url} title={title} />
+                    </div>
+                    <span className="text-xs h-fit self-end">
+                        Updated at {modPublishedAt}
+                    </span>
+                </div>
             </div>
         </div>
     )

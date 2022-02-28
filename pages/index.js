@@ -14,7 +14,7 @@ export default function Home({ data: { articles } }) {
                 />
                 <title>Newsly: The News Hub</title>
             </Head>
-            <header className="flex justify-center text-center sm:text-9xl text-6xl py-10">
+            <header className="flex justify-center text-center sm:text-9xl text-6xl p-10">
                 <h1>Newsly: The News Hub</h1>
             </header>
             <main className="flex flex-wrap justify-evenly">
