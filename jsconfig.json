@@ -4,7 +4,8 @@
         "target": "es5",
         "baseUrl": ".",
         "paths": {
-            "@queries/*": ["./queries/*"] 
+            "@queries/*": ["./queries/*"],
+            "@components/*": ["./components/*"]
         }
     }
 }
