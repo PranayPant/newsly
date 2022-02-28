@@ -11,7 +11,7 @@ import {
 
 import PropTypes from 'prop-types'
 
-const ShareButton = ({ className, social, size, url, title }) => {
+const ShareButton = ({ buttonClass, social, size, url, title }) => {
     const Button = () => {
         switch (social) {
             case 'facebook':
@@ -41,14 +41,14 @@ const ShareButton = ({ className, social, size, url, title }) => {
         }
     }
     return (
-        <div className={`inline ${className}`}>
+        <div className={`inline ${buttonClass}`}>
             <Button />
         </div>
     )
 }
 
 ShareButton.propTypes = {
-    className: PropTypes.string,
+    buttonClass: PropTypes.string,
     social: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     title: PropTypes.string,
@@ -56,7 +56,7 @@ ShareButton.propTypes = {
 }
 
 ShareButton.defaultProps = {
-    className: '',
+    buttonClass: '',
     title: '',
     size: 32,
 }

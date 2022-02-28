@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import Socials from '@components/Socials'
+import { event } from '@lib/ga'
 
 const Card = ({
-    article: { author, title, description, url, urlToImage, publishedAt },
+    article: { title, description, url, urlToImage, publishedAt },
 }) => {
     if (!urlToImage || !title || !description || !publishedAt) {
         return <></>
@@ -15,6 +16,14 @@ const Card = ({
             minute: '2-digit',
         }
     )
+    const newsLinkEvent = (title) => {
+        event({
+            action: 'newslink',
+            params: {
+                search_term: title,
+            },
+        })
+    }
     return (
         <div className="sm:w-96 w-72 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col">
             <img className="rounded-lg" src={urlToImage} alt={title}></img>
@@ -22,6 +31,7 @@ const Card = ({
                 <a
                     className="text-2xl hover:text-blue-700 hover:underline"
                     href={url}
+                    onClick={() => newsLinkEvent(title)}
                     target="_blank"
                     rel="noreferrer noopener"
                 >

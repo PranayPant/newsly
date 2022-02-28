@@ -6,10 +6,11 @@ const Socials = ({ socials, url, title }) => {
         <>
             {socials.map((social) => (
                 <ShareButton
+                    key={social}
                     url={url}
                     title={title}
                     social={social}
-                    className="pr-2"
+                    buttonClass="pr-2"
                 />
             ))}
         </>

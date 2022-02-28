@@ -1,10 +1,29 @@
 import PropTypes from 'prop-types'
 import Head from 'next/head'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
+import { pageview } from '@lib/ga'
 import headlinesApi from '@queries/headlines'
 import Card from '@components/Card'
 
 export default function Home({ data: { articles } }) {
+    const router = useRouter()
+    useEffect(() => {
+        const handleRouteChange = (url) => {
+            pageview(url)
+        }
+        //When the component is mounted, subscribe to router changes
+        //and log those page views
+        router.events.on('routeChangeComplete', handleRouteChange)
+
+        // If the component is unmounted, unsubscribe
+        // from the event with the `off` method
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange)
+        }
+    }, [router.events])
+
     return (
         <div>
             <Head>
