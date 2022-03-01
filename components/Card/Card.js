@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import Socials from '@components/Socials'
 
 const Card = ({
-    article: { author, title, description, url, urlToImage, publishedAt },
+    article: { title, description, url, urlToImage, publishedAt },
 }) => {
     if (!urlToImage || !title || !description || !publishedAt) {
         return <></>
@@ -20,7 +20,7 @@ const Card = ({
             <img className="rounded-lg" src={urlToImage} alt={title}></img>
             <div className=" flex flex-col flex-auto pt-3">
                 <a
-                    className="text-2xl hover:text-blue-700 hover:underline"
+                    className="text-2xl font-semibold hover:text-blue-700 hover:underline"
                     href={url}
                     target="_blank"
                     rel="noreferrer noopener"
