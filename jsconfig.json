@@ -5,7 +5,8 @@
         "baseUrl": ".",
         "paths": {
             "@queries/*": ["./queries/*"],
-            "@components/*": ["./components/*"]
+            "@components/*": ["./components/*"],
+            "@lib/*": ["./lib/*"]
         }
     }
 }
