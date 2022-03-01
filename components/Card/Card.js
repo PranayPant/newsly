@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Socials from '@components/Socials'
-import { event } from '@lib/ga'
+import { trackClickEvent } from '@lib/ga'
 
 const Card = ({
     article: { title, description, url, urlToImage, publishedAt },
@@ -17,7 +17,7 @@ const Card = ({
         }
     )
     const newsLinkEvent = (title) => {
-        event({
+        trackClickEvent({
             action: 'newslink',
             params: {
                 search_term: title,
@@ -29,7 +29,7 @@ const Card = ({
             <img className="rounded-lg" src={urlToImage} alt={title}></img>
             <div className=" flex flex-col flex-auto pt-3">
                 <a
-                    className="text-2xl hover:text-blue-700 hover:underline"
+                    className="text-2xl font-semibold hover:text-blue-700 hover:underline"
                     href={url}
                     onClick={() => newsLinkEvent(title)}
                     target="_blank"
