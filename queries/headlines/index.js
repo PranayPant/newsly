@@ -1,7 +1,55 @@
 import axios from 'axios'
-export default async () => {
-    const {data} = await axios.get(`${process.env.HEADLINES_API_ENDPOINT}?country=us`, {headers: {
-        'X-Api-Key': `${process.env.HEADLINES_API_KEY}`
-    }})
+
+export async function fetchHeadlines() {
+    const { data } = await axios.get(
+        `${process.env.HEADLINES_API_ENDPOINT}?country=us`,
+        {
+            headers: {
+                'X-Api-Key': `${process.env.HEADLINES_API_KEY}`,
+            },
+        }
+    )
+    return data
+}
+
+export async function persistArticles(articles) {
+    await axios.post(
+        process.env.DB_API_INSERT_MANY_ENDPOINT,
+        {
+            dataSource: process.env.CLUSTER_NAME,
+            database: process.env.DB_NAME,
+            collection: 'headlines',
+            documents: articles,
+        },
+        {
+            headers: {
+                'api-key': process.env.DB_API_KEY,
+            },
+        }
+    )
+}
+
+export async function fetchRedisArticles() {
+    const { data } = await axios.get(
+        `${process.env.REDIS_API_ENDPOINT}/get/articles`,
+        {
+            headers: {
+                Authorization: `Bearer ${process.env.REDIS_API_TOKEN}`,
+            },
+        }
+    )
+    return data
+}
+
+export async function insertRedisArticles(articles, exp = 1800) {
+    const { data } = await axios.post(
+        `${process.env.REDIS_API_ENDPOINT}`,
+        ['SET', 'articles', JSON.stringify(articles), 'EX', exp],
+        {
+            headers: {
+                Authorization: `Bearer ${process.env.REDIS_API_TOKEN}`,
+            },
+        }
+    )
     return data
 }
