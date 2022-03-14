@@ -39,18 +39,8 @@ Home.propTypes = {
 }
 
 export async function getStaticProps() {
-    let articles = []
-    const { result } = await fetchRedisArticles()
-    if (result) {
-        console.log('Fetched articles from redis')
-        articles = JSON.parse(result)
-    } else {
-        const response = await fetchHeadlines()
-        console.log('Fetched new articles')
-        articles = response.articles
-        insertRedisArticles(articles)
-        persistArticles(articles)
-    }
+    const { articles } = await fetchHeadlines()
+    persistArticles(articles)
     return {
         props: {
             articles,
