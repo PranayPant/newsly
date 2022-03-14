@@ -25,6 +25,7 @@ export async function getStaticProps({ params: { title } }) {
 
 export async function getStaticPaths() {
     const articles = await getAllPersistedArticles()
+    console.log('Fetched articles', articles)
     const paths = articles.map(({ title }) => ({ params: { title } }))
     return {
         paths,
