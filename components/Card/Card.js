@@ -3,9 +3,9 @@ import Socials from '@components/Socials'
 import { trackClickEvent } from '@lib/ga'
 
 const Card = ({
-    article: { title, description, url, urlToImage, publishedAt },
+    article: { title, content, url, urlToImage, publishedAt },
 }) => {
-    if (!urlToImage || !title || !description || !publishedAt) {
+    if (!urlToImage || !title || !content || !publishedAt) {
         return <></>
     }
     const modPublishedAt = new Date(Date.parse(publishedAt)).toLocaleTimeString(
@@ -16,6 +16,7 @@ const Card = ({
             minute: '2-digit',
         }
     )
+    const modContent = content.split('[')[0] + 'Read More'
     const newsLinkEvent = (title) => {
         trackClickEvent({
             action: 'newslink',
@@ -30,7 +31,7 @@ const Card = ({
             <div className=" flex flex-col flex-auto pt-3">
                 <a
                     className="text-2xl font-semibold hover:text-blue-700 hover:underline"
-                    href={url}
+                    href={`/${title}`}
                     onClick={() => newsLinkEvent(title)}
                     target="_blank"
                     rel="noreferrer noopener"
@@ -38,7 +39,7 @@ const Card = ({
                     {title}
                 </a>
 
-                <span className="flex-auto pt-5 text-lg">{description}</span>
+                <span className="flex-auto pt-5 text-lg">{modContent}</span>
                 <div className="flex pt-3">
                     <div className="flex-auto">
                         <Socials url={url} title={title} />

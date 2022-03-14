@@ -29,6 +29,47 @@ export async function persistArticles(articles) {
     )
 }
 
+export async function getPersistedArticle(title) {
+    const {
+        data: { document },
+    } = await axios.post(
+        process.env.DB_API_FIND_ONE_ENDPOINT,
+        {
+            dataSource: process.env.CLUSTER_NAME,
+            database: process.env.DB_NAME,
+            collection: 'headlines',
+            filter: {
+                title,
+            },
+        },
+        {
+            headers: {
+                'api-key': process.env.DB_API_KEY,
+            },
+        }
+    )
+    return document
+}
+
+export async function getAllPersistedArticles() {
+    const {
+        data: { documents },
+    } = await axios.post(
+        process.env.DB_API_FIND_MANY_ENDPOINT,
+        {
+            dataSource: process.env.CLUSTER_NAME,
+            database: process.env.DB_NAME,
+            collection: 'headlines',
+        },
+        {
+            headers: {
+                'api-key': process.env.DB_API_KEY,
+            },
+        }
+    )
+    return documents
+}
+
 export async function fetchRedisArticles() {
     const { data } = await axios.get(
         `${process.env.REDIS_API_ENDPOINT}/get/articles`,

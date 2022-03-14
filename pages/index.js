@@ -45,8 +45,8 @@ export async function getStaticProps() {
         console.log('Fetched articles from redis')
         articles = JSON.parse(result)
     } else {
-        console.log('Fetching new articles')
         const response = await fetchHeadlines()
+        console.log('Fetched new articles')
         articles = response.articles
         insertRedisArticles(articles)
         persistArticles(articles)
