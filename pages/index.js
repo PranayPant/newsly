@@ -40,7 +40,11 @@ Home.propTypes = {
 
 export async function getStaticProps() {
     const { articles } = await fetchHeadlines()
-    persistArticles(articles)
+    try {
+        await persistArticles(articles)
+    } catch (err) {
+        console.log('Error inserting articles:', err)
+    }
     return {
         props: {
             articles,

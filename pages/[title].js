@@ -15,7 +15,12 @@ Article.propTypes = {
 }
 
 export async function getStaticProps({ params: { title } }) {
-    const article = await getPersistedArticle(title)
+    let article
+    try {
+        article = await getPersistedArticle(title)
+    } catch (err) {
+        console.log('Error getting article:', err)
+    }
     return {
         props: {
             article,
@@ -24,11 +29,15 @@ export async function getStaticProps({ params: { title } }) {
 }
 
 export async function getStaticPaths() {
-    const articles = await getAllPersistedArticles()
-    console.log('Fetched articles', articles)
+    let articles = []
+    try {
+        articles = await getAllPersistedArticles()
+    } catch (err) {
+        console.log('Error retrieving articles:', err)
+    }
     const paths = articles.map(({ title }) => ({ params: { title } }))
     return {
-        paths,
+        paths: paths || [],
         fallback: false,
     }
 }
