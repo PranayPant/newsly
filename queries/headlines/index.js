@@ -13,20 +13,23 @@ export async function fetchHeadlines() {
 }
 
 export async function persistArticles(articles) {
-    await axios.post(
-        process.env.DB_API_INSERT_MANY_ENDPOINT,
-        {
-            dataSource: process.env.CLUSTER_NAME,
-            database: process.env.DB_NAME,
-            collection: 'headlines',
-            documents: articles,
-        },
-        {
-            headers: {
-                'api-key': process.env.DB_API_KEY,
+    const insertPromises = articles.map((article) =>
+        axios.post(
+            process.env.DB_API_INSERT_ONE_ENDPOINT,
+            {
+                dataSource: process.env.CLUSTER_NAME,
+                database: process.env.DB_NAME,
+                collection: 'headlines',
+                document: article,
             },
-        }
+            {
+                headers: {
+                    'api-key': process.env.DB_API_KEY,
+                },
+            }
+        )
     )
+    await Promise.allSettled(insertPromises)
 }
 
 export async function getPersistedArticle(title) {

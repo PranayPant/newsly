@@ -7,7 +7,24 @@ import {
 } from '@queries/headlines'
 
 export default function Article({ article }) {
-    return <>{JSON.stringify(article)}</>
+    return (
+        <div>
+            <Card
+                key={`${article.author}${article.title}`}
+                article={article}
+                wrapperClass="p-0 m-0 sm:w-screen w-screen"
+                imgClass="rounded-none"
+                bodyClass="pt-10"
+                contentClass="px-5"
+                titleClass="self-center"
+                socialsClass="hidden"
+                timestampClass="hidden"
+            />
+            <div>
+                <h2 className="p-10 text-2xl">More news...</h2>
+            </div>
+        </div>
+    )
 }
 
 Article.propTypes = {

@@ -43,7 +43,7 @@ export async function getStaticProps() {
     try {
         await persistArticles(articles)
     } catch (err) {
-        console.log('Error inserting articles:', err)
+        console.log('Error inserting articles:', err.response.data)
     }
     return {
         props: {
