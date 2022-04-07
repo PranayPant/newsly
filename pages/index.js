@@ -1,12 +1,7 @@
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 
-import {
-    fetchHeadlines,
-    persistArticles,
-    fetchRedisArticles,
-    insertRedisArticles,
-} from '@queries/headlines'
+import { fetchHeadlines, persistArticles } from '@queries/headlines'
 import Card from '@components/Card'
 
 export default function Home({ articles }) {

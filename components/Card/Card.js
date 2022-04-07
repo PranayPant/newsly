@@ -4,14 +4,6 @@ import { trackClickEvent } from '@lib/ga'
 
 const Card = ({
     article: { title, content, url, urlToImage, publishedAt },
-    wrapperClass,
-    imgClass,
-    bodyClass,
-    footerClass,
-    titleClass,
-    contentClass,
-    socialsClass,
-    timestampClass,
 }) => {
     if (!urlToImage || !title || !content || !publishedAt) {
         return <></>
@@ -34,17 +26,11 @@ const Card = ({
         })
     }
     return (
-        <div
-            className={`sm:w-96 w-72 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col ${wrapperClass}`}
-        >
-            <img
-                className={`rounded-lg ${imgClass}`}
-                src={urlToImage}
-                alt={title}
-            ></img>
-            <div className={`flex flex-col flex-auto pt-3 ${bodyClass}`}>
+        <div className="sm:w-96 w-72 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col">
+            <img className="rounded-lg" src={urlToImage} alt={title}></img>
+            <div className="flex flex-col flex-auto pt-3">
                 <a
-                    className={`text-2xl font-semibold hover:text-blue-700 hover:underline ${titleClass}`}
+                    className="text-2xl font-semibold hover:text-blue-700 hover:underline"
                     href={`/${title}`}
                     onClick={() => newsLinkEvent(title)}
                     target="_blank"
@@ -53,10 +39,10 @@ const Card = ({
                     {title}
                 </a>
 
-                <p className={`flex-auto pt-5 text-lg ${contentClass}`}>
+                <p className="flex-auto pt-5 text-lg">
                     {modContent}{' '}
                     <a
-                        className={`text-blue-700 hover:underline`}
+                        className="text-blue-700 hover:underline"
                         href={`/${title}`}
                         onClick={() => newsLinkEvent(title)}
                         target="_blank"
@@ -65,13 +51,11 @@ const Card = ({
                         Read More
                     </a>
                 </p>
-                <div className={`flex pt-3 ${footerClass}`}>
-                    <div className={`flex-auto ${socialsClass}`}>
+                <div className="flex pt-3">
+                    <div className="flex-auto">
                         <Socials url={url} title={title} />
                     </div>
-                    <span
-                        className={`text-xs h-fit self-end ${timestampClass}`}
-                    >
+                    <span className="text-xs h-fit self-end">
                         Updated at {modPublishedAt}
                     </span>
                 </div>
@@ -94,25 +78,6 @@ Card.propTypes = {
         publishedAt: PropTypes.string,
         content: PropTypes.string,
     }).isRequired,
-    wrapperClass: PropTypes.string,
-    imgClass: PropTypes.string,
-    bodyClass: PropTypes.string,
-    footerClass: PropTypes.string,
-    titleClass: PropTypes.string,
-    contentClass: PropTypes.string,
-    socialsClass: PropTypes.string,
-    timestampClass: PropTypes.string,
-}
-
-Card.defaultProps = {
-    wrapperClass: '',
-    imgClass: '',
-    bodyClass: '',
-    footerClass: '',
-    titleClass: '',
-    contentClass: '',
-    socialsClass: '',
-    timestampClass: '',
 }
 
 export default Card

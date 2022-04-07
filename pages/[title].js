@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-import Head from 'next/head'
 import Card from '@components/Card'
 import {
     getAllPersistedArticles,
@@ -7,24 +5,7 @@ import {
 } from '@queries/headlines'
 
 export default function Article({ article }) {
-    return (
-        <div>
-            <Card
-                key={`${article.author}${article.title}`}
-                article={article}
-                wrapperClass="p-0 m-0 sm:w-screen w-screen"
-                imgClass="rounded-none"
-                bodyClass="pt-10"
-                contentClass="px-5"
-                titleClass="self-center"
-                socialsClass="hidden"
-                timestampClass="hidden"
-            />
-            <div>
-                <h2 className="p-10 text-2xl">More news...</h2>
-            </div>
-        </div>
-    )
+    return <Card key={`${article.author}${article.title}`} article={article} />
 }
 
 Article.propTypes = {
@@ -53,8 +34,12 @@ export async function getStaticPaths() {
         console.log('Error retrieving articles:', err)
     }
     const paths = articles.map(({ title }) => ({ params: { title } }))
+    console.log(
+        'built paths',
+        paths.map((p) => p.params.title)
+    )
     return {
-        paths: paths || [],
+        paths,
         fallback: false,
     }
 }
