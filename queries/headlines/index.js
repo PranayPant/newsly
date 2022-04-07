@@ -13,7 +13,11 @@ export async function fetchHeadlines() {
 }
 
 export async function persistArticles(articles) {
-    const insertPromises = articles
+    const insertArticles = articles.filter(
+        ({ title, content, urlToImage, publishedAt }) =>
+            urlToImage && title && content && publishedAt
+    )
+    const insertPromises = insertArticles
         .filter(
             ({ title, content, urlToImage, publishedAt }) =>
                 urlToImage && title && content && publishedAt
@@ -35,9 +39,10 @@ export async function persistArticles(articles) {
             )
         )
     await Promise.allSettled(insertPromises)
+    return insertArticles
 }
 
-export async function getPersistedArticle(title) {
+export async function getPersistedArticle(params) {
     const {
         data: { document },
     } = await axios.post(
@@ -46,9 +51,7 @@ export async function getPersistedArticle(title) {
             dataSource: process.env.CLUSTER_NAME,
             database: process.env.DB_NAME,
             collection: 'headlines',
-            filter: {
-                title,
-            },
+            filter: params,
         },
         {
             headers: {

@@ -14,7 +14,7 @@ export default function Home({ articles }) {
                 />
                 <title>Newsly: The News Hub</title>
             </Head>
-            <header className="flex justify-center text-center sm:text-9xl text-6xl p-10">
+            <header className="flex justify-center text-center sm:text-6xl text-4xl p-10">
                 <h1>Newsly: The News Hub</h1>
             </header>
             <main className="flex flex-wrap justify-evenly">
@@ -35,14 +35,15 @@ Home.propTypes = {
 
 export async function getStaticProps() {
     const { articles } = await fetchHeadlines()
+    let finalArticles = []
     try {
-        await persistArticles(articles)
+        finalArticles = await persistArticles(articles)
     } catch (err) {
         console.log('Error inserting articles:', err.response.data)
     }
     return {
         props: {
-            articles,
+            articles: finalArticles,
         },
         // revalidate every 30 min
         revalidate: 1800,

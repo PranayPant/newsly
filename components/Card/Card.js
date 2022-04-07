@@ -2,12 +2,11 @@ import PropTypes from 'prop-types'
 import Socials from '@components/Socials'
 import { trackClickEvent } from '@lib/ga'
 
-const Card = ({
-    article: { title, content, url, urlToImage, publishedAt },
-}) => {
+const Card = ({ article: { title, content, urlToImage, publishedAt } }) => {
     if (!urlToImage || !title || !content || !publishedAt) {
         return <></>
     }
+    const shareUrl = encodeURI(`https://newsapp.cf/${title}`)
     const modPublishedAt = new Date(Date.parse(publishedAt)).toLocaleTimeString(
         'en-US',
         {
@@ -53,7 +52,7 @@ const Card = ({
                 </p>
                 <div className="flex pt-3">
                     <div className="flex-auto">
-                        <Socials url={url} title={title} />
+                        <Socials url={shareUrl} title={title} />
                     </div>
                     <span className="text-xs h-fit self-end">
                         Updated at {modPublishedAt}
