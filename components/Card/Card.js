@@ -2,7 +2,9 @@ import PropTypes from 'prop-types'
 import Socials from '@components/Socials'
 import { trackClickEvent } from '@lib/ga'
 
-const Card = ({ article: { title, content, urlToImage, publishedAt } }) => {
+const Card = ({
+    article: { slug, title, content, urlToImage, publishedAt },
+}) => {
     if (!urlToImage || !title || !content || !publishedAt) {
         return <></>
     }
@@ -30,7 +32,7 @@ const Card = ({ article: { title, content, urlToImage, publishedAt } }) => {
             <div className="flex flex-col flex-auto pt-3">
                 <a
                     className="text-2xl font-semibold hover:text-blue-700 hover:underline"
-                    href={`/${title}`}
+                    href={`/${slug}`}
                     onClick={() => newsLinkEvent(title)}
                     target="_blank"
                     rel="noreferrer noopener"
@@ -42,7 +44,7 @@ const Card = ({ article: { title, content, urlToImage, publishedAt } }) => {
                     {modContent}{' '}
                     <a
                         className="text-blue-700 hover:underline"
-                        href={`/${title}`}
+                        href={`/${slug}`}
                         onClick={() => newsLinkEvent(title)}
                         target="_blank"
                         rel="noreferrer noopener"
@@ -69,6 +71,7 @@ Card.propTypes = {
             id: PropTypes.string,
             name: PropTypes.string,
         }),
+        slug: PropTypes.string,
         author: PropTypes.string,
         title: PropTypes.string,
         description: PropTypes.string,

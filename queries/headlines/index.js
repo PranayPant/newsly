@@ -13,31 +13,31 @@ export async function fetchHeadlines() {
 }
 
 export async function persistArticles(articles) {
-    const insertArticles = articles.filter(
+    let insertArticles = articles.filter(
         ({ title, content, urlToImage, publishedAt }) =>
             urlToImage && title && content && publishedAt
     )
-    const insertPromises = insertArticles
-        .filter(
-            ({ title, content, urlToImage, publishedAt }) =>
-                urlToImage && title && content && publishedAt
-        )
-        .map((article) =>
-            axios.post(
-                process.env.DB_API_INSERT_ONE_ENDPOINT,
-                {
-                    dataSource: process.env.CLUSTER_NAME,
-                    database: process.env.DB_NAME,
-                    collection: 'headlines',
-                    document: article,
+    const oldCount = (await updateArticlesCount(insertArticles.length)) || 1
+    insertArticles = insertArticles.map((article, i) => ({
+        ...article,
+        slug: `${oldCount + i}`,
+    }))
+    const insertPromises = insertArticles.map((article) =>
+        axios.post(
+            process.env.DB_API_INSERT_ONE_ENDPOINT,
+            {
+                dataSource: process.env.CLUSTER_NAME,
+                database: process.env.DB_NAME,
+                collection: 'headlines',
+                document: article,
+            },
+            {
+                headers: {
+                    'api-key': process.env.DB_API_KEY,
                 },
-                {
-                    headers: {
-                        'api-key': process.env.DB_API_KEY,
-                    },
-                }
-            )
+            }
         )
+    )
     await Promise.allSettled(insertPromises)
     return insertArticles
 }
@@ -81,27 +81,19 @@ export async function getAllPersistedArticles() {
     return documents
 }
 
-export async function fetchRedisArticles() {
-    const { data } = await axios.get(
-        `${process.env.REDIS_API_ENDPOINT}/get/articles`,
-        {
-            headers: {
-                Authorization: `Bearer ${process.env.REDIS_API_TOKEN}`,
-            },
-        }
-    )
-    return data
-}
-
-export async function insertRedisArticles(articles, exp = 1800) {
+async function updateArticlesCount(articlesCount) {
     const { data } = await axios.post(
-        `${process.env.REDIS_API_ENDPOINT}`,
-        ['SET', 'articles', JSON.stringify(articles), 'EX', exp],
+        `${process.env.REDIS_API_ENDPOINT}/pipeline`,
+        [
+            ['GET', 'articlesCount'],
+            ['INCRBY', 'articlesCount', articlesCount],
+        ],
         {
             headers: {
                 Authorization: `Bearer ${process.env.REDIS_API_TOKEN}`,
             },
         }
     )
-    return data
+    // return old count
+    return data[0].result
 }

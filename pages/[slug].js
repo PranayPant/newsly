@@ -76,10 +76,10 @@ Article.propTypes = {
     article: Card.propTypes.article,
 }
 
-export async function getStaticProps({ params: { title } }) {
+export async function getStaticProps({ params: { slug } }) {
     let article
     try {
-        article = await getPersistedArticle({ title })
+        article = await getPersistedArticle({ slug })
     } catch (err) {
         console.log('Error getting article:', err)
     }
@@ -97,7 +97,9 @@ export async function getStaticPaths() {
     } catch (err) {
         console.log('Error retrieving articles:', err)
     }
-    const paths = articles.map(({ title }) => ({ params: { title } }))
+    const paths = articles.map(({ slug }) => ({
+        params: { slug },
+    }))
     return {
         paths,
         fallback: false,
