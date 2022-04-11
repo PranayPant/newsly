@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 export default function Article() {
     const router = useRouter()
-    const [showLink, setShowLink] = useState(false)
+    const [showLink, setShowLink] = useState(true)
     const { title, description, content, url, urlToImage } = router.query
 
     const handleReadMore = () => {
