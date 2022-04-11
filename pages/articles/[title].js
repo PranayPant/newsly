@@ -26,7 +26,7 @@ export default function Article() {
             window.removeEventListener('resize', handleReadMore)
         }
     })
-    if (!urlToImage || !url || !title || !content || !description) {
+    if (!urlToImage || !url || !title || !content) {
         return <></>
     }
     return (
@@ -34,11 +34,14 @@ export default function Article() {
             <Head>
                 <meta property="og:title" content={title} />
                 <meta property="og:image" content={urlToImage} />
-                <meta property="og:description" content={description} />
+                <meta
+                    property="og:description"
+                    content={description || content}
+                />
             </Head>
             <main>
                 <div className="flex justify-center bg-slate-200">
-                    <img src={urlToImage} width={800} height={400} />
+                    <img className="h-96" src={urlToImage} width={800} />
                 </div>
 
                 <article className="px-10 relative flex flex-col">
@@ -53,7 +56,7 @@ export default function Article() {
                         id="read-more-link"
                         className={`${
                             showLink ? 'inline' : 'hidden'
-                        } self-center absolute bottom-5 px-4 py-2 rounded bg-blue-400 text-white`}
+                        } self-center absolute bottom-0 px-4 py-2 rounded bg-blue-400 text-white`}
                         href={url}
                     >
                         Read More
