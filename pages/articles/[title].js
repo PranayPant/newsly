@@ -32,7 +32,7 @@ export default function Article() {
     return (
         <>
             <Head>
-                <meta property="og:title" content={title} />
+                <title>{title}</title>
                 <meta property="og:image" content={urlToImage} />
                 <meta
                     property="og:description"
