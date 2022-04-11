@@ -8,9 +8,9 @@ const Card = ({
     if (!urlToImage || !title || !content || !publishedAt) {
         return <></>
     }
-    const shareUrl = encodeURI(
-        `/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`
-    )
+    const linkPath = `/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`
+    const articleLink = encodeURI(linkPath)
+    const shareLink = encodeURIComponent(`https://newsapp.cf${linkPath}`)
     const modPublishedAt = new Date(Date.parse(publishedAt)).toLocaleTimeString(
         'en-US',
         {
@@ -34,7 +34,7 @@ const Card = ({
             <div className="flex flex-col flex-auto pt-3">
                 <a
                     className="text-2xl font-semibold hover:text-blue-700 hover:underline"
-                    href={shareUrl}
+                    href={articleLink}
                     onClick={() => newsLinkEvent(title)}
                     target="_blank"
                     rel="noreferrer noopener"
@@ -46,7 +46,7 @@ const Card = ({
                     {modContent}{' '}
                     <a
                         className="text-blue-700 hover:underline"
-                        href={shareUrl}
+                        href={articleLink}
                         onClick={() => newsLinkEvent(title)}
                         target="_blank"
                         rel="noreferrer noopener"
@@ -56,10 +56,7 @@ const Card = ({
                 </p>
                 <div className="flex pt-3">
                     <div className="flex-auto">
-                        <Socials
-                            url={`https://newsapp.cf${shareUrl}`}
-                            title={title}
-                        />
+                        <Socials url={shareLink} title={title} />
                     </div>
                     <span className="text-xs h-fit self-end">
                         Updated at {modPublishedAt}
