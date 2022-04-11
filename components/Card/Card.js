@@ -57,7 +57,7 @@ const Card = ({
                 <div className="flex pt-3">
                     <div className="flex-auto">
                         <Socials
-                            url={'https://newsapp.cf/articles/'}
+                            url={`https://newsapp.cf/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`}
                             title={title}
                         />
                     </div>
