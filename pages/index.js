@@ -12,6 +12,10 @@ export default function Home({ articles }) {
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"
                 />
+                <meta
+                    name="description"
+                    content="Get all your news stories here. Updated every 30 minutes, top headlines in the US."
+                />
                 <title>Newsly: The News Hub</title>
             </Head>
             <header className="flex justify-center text-center sm:text-6xl text-4xl p-10">
