@@ -2,11 +2,15 @@ import PropTypes from 'prop-types'
 import Socials from '@components/Socials'
 import { trackClickEvent } from '@lib/ga'
 
-const Card = ({ article: { title, content, urlToImage, publishedAt } }) => {
+const Card = ({
+    article: { title, content, description, url, urlToImage, publishedAt },
+}) => {
     if (!urlToImage || !title || !content || !publishedAt) {
         return <></>
     }
-    const shareUrl = encodeURI(`https://newsapp.cf/${title}`)
+    const shareUrl = encodeURI(
+        `/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`
+    )
     const modPublishedAt = new Date(Date.parse(publishedAt)).toLocaleTimeString(
         'en-US',
         {
@@ -30,7 +34,7 @@ const Card = ({ article: { title, content, urlToImage, publishedAt } }) => {
             <div className="flex flex-col flex-auto pt-3">
                 <a
                     className="text-2xl font-semibold hover:text-blue-700 hover:underline"
-                    href={`/${title}`}
+                    href={shareUrl}
                     onClick={() => newsLinkEvent(title)}
                     target="_blank"
                     rel="noreferrer noopener"
@@ -42,7 +46,7 @@ const Card = ({ article: { title, content, urlToImage, publishedAt } }) => {
                     {modContent}{' '}
                     <a
                         className="text-blue-700 hover:underline"
-                        href={`/${title}`}
+                        href={shareUrl}
                         onClick={() => newsLinkEvent(title)}
                         target="_blank"
                         rel="noreferrer noopener"
@@ -52,7 +56,10 @@ const Card = ({ article: { title, content, urlToImage, publishedAt } }) => {
                 </p>
                 <div className="flex pt-3">
                     <div className="flex-auto">
-                        <Socials url={shareUrl} title={title} />
+                        <Socials
+                            url={`https://newsapp.cf${shareUrl}`}
+                            title={title}
+                        />
                     </div>
                     <span className="text-xs h-fit self-end">
                         Updated at {modPublishedAt}
