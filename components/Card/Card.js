@@ -56,7 +56,7 @@ const Card = ({
                 </p>
                 <div className="flex pt-3">
                     <div className="flex-auto">
-                        <Socials url={articleLink} title={title} />
+                        <Socials url={'https://newsapp.cf'} title={title} />
                     </div>
                     <span className="text-xs h-fit self-end">
                         Updated at {modPublishedAt}
