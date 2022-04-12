@@ -1,31 +1,10 @@
-import { useEffect, useState } from 'react'
-
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 export default function Article() {
     const router = useRouter()
-    const [showLink, setShowLink] = useState(true)
     const { title, description, content, url, urlToImage } = router.query
 
-    const handleReadMore = () => {
-        if (
-            window.innerHeight + window.pageYOffset >=
-            document.body.scrollHeight
-        ) {
-            setShowLink(true)
-        } else {
-            setShowLink(false)
-        }
-    }
-    useEffect(() => {
-        window.addEventListener('scroll', handleReadMore)
-        window.addEventListener('resize', handleReadMore)
-        return () => {
-            window.removeEventListener('scroll', handleReadMore)
-            window.removeEventListener('resize', handleReadMore)
-        }
-    })
     if (!urlToImage || !url || !title || !content) {
         return <></>
     }
@@ -42,7 +21,11 @@ export default function Article() {
             </Head>
             <main>
                 <div className="flex justify-center bg-slate-200">
-                    <img className="h-96" src={urlToImage} width={800} />
+                    <img
+                        className="h-48 md:h-96"
+                        src={urlToImage}
+                        width={800}
+                    />
                 </div>
 
                 <article className="px-10 relative flex flex-col">
@@ -55,9 +38,7 @@ export default function Article() {
                     <div className="h-36 w-full absolute bottom-0 bg-gradient-to-b from-transparent to-white" />
                     <a
                         id="read-more-link"
-                        className={`${
-                            showLink ? 'inline' : 'hidden'
-                        } self-center absolute bottom-5 px-4 py-2 rounded bg-blue-400 text-white`}
+                        className="inline self-center absolute bottom-5 px-4 py-2 rounded bg-blue-400 text-white"
                         href={url}
                     >
                         Read More
