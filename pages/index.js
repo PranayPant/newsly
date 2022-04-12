@@ -17,6 +17,7 @@ export default function Home({ articles }) {
                     content="Get all your news stories here. Updated every 30 minutes, top headlines in the US."
                 />
                 <title>Newsly: The News Hub</title>
+                <link rel="canonical" href="https://newsapp.cf" />
             </Head>
             <header className="flex justify-center text-center sm:text-6xl text-4xl p-10">
                 <h1>Newsly: The News Hub</h1>

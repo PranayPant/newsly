@@ -36,8 +36,9 @@ export default function Article() {
                 <meta property="og:image" content={urlToImage} />
                 <meta
                     property="og:description"
-                    content={description || content}
+                    content={description || title}
                 />
+                <link rel="canonical" href={url} />
             </Head>
             <main>
                 <div className="flex justify-center bg-slate-200">
