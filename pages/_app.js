@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import Script from 'next/script'
+import Head from 'next/head'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { trackPageView } from '@lib/ga'
@@ -17,6 +18,13 @@ function MyApp({ Component, pageProps }) {
     }, [router.events])
     return (
         <>
+            <Head>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                />
+            </Head>
+
             <Script
                 src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
                 strategy="afterInteractive"
