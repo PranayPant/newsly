@@ -3,19 +3,14 @@ import Socials from '@components/Socials'
 import { trackClickEvent } from '@lib/ga'
 
 const Card = ({
-    article: { title, content, url, urlToImage, publishedAt },
-    wrapperClass,
-    imgClass,
-    bodyClass,
-    footerClass,
-    titleClass,
-    contentClass,
-    socialsClass,
-    timestampClass,
+    article: { title, content, description, url, urlToImage, publishedAt },
 }) => {
     if (!urlToImage || !title || !content || !publishedAt) {
         return <></>
     }
+    const articleLink = encodeURI(
+        `/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`
+    )
     const modPublishedAt = new Date(Date.parse(publishedAt)).toLocaleTimeString(
         'en-US',
         {
@@ -34,18 +29,12 @@ const Card = ({
         })
     }
     return (
-        <div
-            className={`sm:w-96 w-72 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col ${wrapperClass}`}
-        >
-            <img
-                className={`rounded-lg ${imgClass}`}
-                src={urlToImage}
-                alt={title}
-            ></img>
-            <div className={`flex flex-col flex-auto pt-3 ${bodyClass}`}>
+        <div className="sm:w-96 w-72 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col">
+            <img className="rounded-lg" src={urlToImage} alt={title}></img>
+            <div className="flex flex-col flex-auto pt-3">
                 <a
-                    className={`text-2xl font-semibold hover:text-blue-700 hover:underline ${titleClass}`}
-                    href={`/${title}`}
+                    className="text-2xl font-semibold hover:text-blue-700 hover:underline"
+                    href={articleLink}
                     onClick={() => newsLinkEvent(title)}
                     target="_blank"
                     rel="noreferrer noopener"
@@ -53,11 +42,11 @@ const Card = ({
                     {title}
                 </a>
 
-                <p className={`flex-auto pt-5 text-lg ${contentClass}`}>
+                <p className="flex-auto pt-5 text-lg">
                     {modContent}{' '}
                     <a
-                        className={`text-blue-700 hover:underline`}
-                        href={`/${title}`}
+                        className="text-blue-700 hover:underline"
+                        href={articleLink}
                         onClick={() => newsLinkEvent(title)}
                         target="_blank"
                         rel="noreferrer noopener"
@@ -65,13 +54,14 @@ const Card = ({
                         Read More
                     </a>
                 </p>
-                <div className={`flex pt-3 ${footerClass}`}>
-                    <div className={`flex-auto ${socialsClass}`}>
-                        <Socials url={url} title={title} />
+                <div className="flex pt-3">
+                    <div className="flex-auto">
+                        <Socials
+                            url={`https://newsapp.cf/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`}
+                            title={title}
+                        />
                     </div>
-                    <span
-                        className={`text-xs h-fit self-end ${timestampClass}`}
-                    >
+                    <span className="text-xs h-fit self-end">
                         Updated at {modPublishedAt}
                     </span>
                 </div>
@@ -94,25 +84,6 @@ Card.propTypes = {
         publishedAt: PropTypes.string,
         content: PropTypes.string,
     }).isRequired,
-    wrapperClass: PropTypes.string,
-    imgClass: PropTypes.string,
-    bodyClass: PropTypes.string,
-    footerClass: PropTypes.string,
-    titleClass: PropTypes.string,
-    contentClass: PropTypes.string,
-    socialsClass: PropTypes.string,
-    timestampClass: PropTypes.string,
-}
-
-Card.defaultProps = {
-    wrapperClass: '',
-    imgClass: '',
-    bodyClass: '',
-    footerClass: '',
-    titleClass: '',
-    contentClass: '',
-    socialsClass: '',
-    timestampClass: '',
 }
 
 export default Card
