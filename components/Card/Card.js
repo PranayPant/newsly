@@ -8,9 +8,9 @@ const Card = ({
     if (!urlToImage || !title || !content || !publishedAt) {
         return <></>
     }
-    const linkPath = `/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`
-    const articleLink = encodeURI(linkPath)
-    const shareLink = encodeURIComponent(`https://newsapp.cf${linkPath}`)
+    const articleLink = encodeURI(
+        `/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`
+    )
     const modPublishedAt = new Date(Date.parse(publishedAt)).toLocaleTimeString(
         'en-US',
         {
@@ -56,7 +56,10 @@ const Card = ({
                 </p>
                 <div className="flex pt-3">
                     <div className="flex-auto">
-                        <Socials url={shareLink} title={title} />
+                        <Socials
+                            url={`https://newsapp.cf/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`}
+                            title={title}
+                        />
                     </div>
                     <span className="text-xs h-fit self-end">
                         Updated at {modPublishedAt}
