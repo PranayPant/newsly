@@ -19,9 +19,13 @@ export default function Article() {
                 />
                 <link rel="canonical" href={url} />
             </Head>
-            <main className="w-full">
+            <main>
                 <div className="flex justify-center bg-slate-200">
-                    <img className="h-96" src={urlToImage} width={800} />
+                    <img
+                        className="h-48 md:h-96"
+                        src={urlToImage}
+                        width={800}
+                    />
                 </div>
 
                 <article className="px-10 relative flex flex-col">
