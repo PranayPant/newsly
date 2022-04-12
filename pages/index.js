@@ -49,20 +49,21 @@ export default function Home({ data: { articles } }) {
 }
 
 Home.propTypes = {
-    data: PropTypes.shape({
-        status: PropTypes.string,
-        totalResults: PropTypes.number,
-        articles: PropTypes.arrayOf(Card.propTypes.article),
-    }).isRequired,
+    articles: PropTypes.arrayOf(Card.propTypes.article).isRequired,
 }
 
 export async function getStaticProps() {
-    const data = await headlinesApi()
+    const { articles } = await fetchHeadlines()
+    try {
+        await persistArticles(articles)
+    } catch (err) {
+        console.log('Error inserting articles:', err.response.data)
+    }
     return {
         props: {
-            data,
+            articles,
         },
-        // revalidate every 10 min
-        revalidate: 600,
+        // revalidate every 30 min
+        revalidate: 1800,
     }
 }
