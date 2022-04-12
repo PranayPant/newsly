@@ -57,7 +57,7 @@ export default function Article() {
                         id="read-more-link"
                         className={`${
                             showLink ? 'inline' : 'hidden'
-                        } self-center absolute bottom-0 px-4 py-2 rounded bg-blue-400 text-white`}
+                        } self-center absolute bottom-5 px-4 py-2 rounded bg-blue-400 text-white`}
                         href={url}
                     >
                         Read More
