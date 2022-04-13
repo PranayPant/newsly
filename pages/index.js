@@ -13,7 +13,7 @@ export default function Home({ articles }) {
                     content="Get all your news stories here. Updated every 30 minutes, top headlines in the US."
                 />
                 <meta
-                    name="og:image"
+                    property="og:image"
                     content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLEMiDWtfT3tgMfKhM37oJg9vthWl3dkmI8Q&usqp=CAU"
                 />
                 <title>Newsly: The News Hub</title>
