@@ -1,13 +1,14 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
-export default function Article() {
-    const router = useRouter()
-    const { title, description, content, url, urlToImage } = router.query
+import { getLatestArticles, getPersistedArticle } from '@queries/headlines'
 
-    if (!urlToImage || !url || !title || !content) {
-        return <></>
-    }
+export default function Article({
+    title,
+    description,
+    content,
+    url,
+    urlToImage,
+}) {
     return (
         <>
             <Head>
@@ -47,4 +48,28 @@ export default function Article() {
             </main>
         </>
     )
+}
+
+export async function getStaticProps({ params: { slug } }) {
+    const { title, description, content, url, urlToImage } =
+        await getPersistedArticle({ slug })
+    return {
+        props: {
+            title,
+            description,
+            content,
+            url,
+            urlToImage,
+        },
+        revalidate: 1800,
+    }
+}
+
+export async function getStaticPaths() {
+    const latestArticles = await getLatestArticles({ projection: { slug: 1 } })
+    const paths = latestArticles.map(({ slug }) => ({ params: { slug } }))
+    return {
+        paths,
+        fallback: 'blocking',
+    }
 }

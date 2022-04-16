@@ -3,15 +3,15 @@ import Head from 'next/head'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { pageview } from '@lib/ga'
-import headlinesApi from '@queries/headlines'
+import { trackPageView } from '@lib/ga'
+import { fetchHeadlines, persistArticles } from '@queries/headlines'
 import Card from '@components/Card'
 
-export default function Home({ data: { articles } }) {
+export default function Home({ articles }) {
     const router = useRouter()
     useEffect(() => {
         const handleRouteChange = (url) => {
-            pageview(url)
+            trackPageView(url)
         }
         //When the component is mounted, subscribe to router changes
         //and log those page views
@@ -43,10 +43,7 @@ export default function Home({ data: { articles } }) {
             </header>
             <main className="flex flex-wrap justify-evenly">
                 {articles.map((article) => (
-                    <Card
-                        key={`${article.author}${article.title}`}
-                        article={article}
-                    />
+                    <Card key={article.slug} article={article} />
                 ))}
             </main>
         </div>
