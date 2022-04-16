@@ -1,4 +1,5 @@
 import axios from 'axios'
+import keyword_extractor from 'keyword-extractor'
 
 export async function fetchHeadlines() {
     const { data } = await axios.get(
@@ -13,31 +14,44 @@ export async function fetchHeadlines() {
 }
 
 export async function persistArticles(articles) {
-    const insertArticles = articles.filter(
-        ({ title, content, urlToImage, publishedAt }) =>
-            urlToImage && title && content && publishedAt
-    )
-    const insertPromises = insertArticles
+    const insertArticles = articles
         .filter(
             ({ title, content, urlToImage, publishedAt }) =>
                 urlToImage && title && content && publishedAt
         )
-        .map((article) =>
-            axios.post(
-                process.env.DB_API_INSERT_ONE_ENDPOINT,
-                {
-                    dataSource: process.env.CLUSTER_NAME,
-                    database: process.env.DB_NAME,
-                    collection: 'headlines',
-                    document: article,
+        .map((article) => {
+            const title = article.title
+                .substring(0, article.title.lastIndexOf('-'))
+                .trim()
+            const keywords = keyword_extractor.extract(title, {
+                language: 'english',
+                remove_digits: true,
+                return_changed_case: true,
+                remove_duplicates: true,
+            })
+            return {
+                ...article,
+                title,
+                keywords,
+                slug: keywords.join('-'),
+            }
+        })
+    const insertPromises = insertArticles.map((article) =>
+        axios.post(
+            process.env.DB_API_INSERT_ONE_ENDPOINT,
+            {
+                dataSource: process.env.CLUSTER_NAME,
+                database: process.env.DB_NAME,
+                collection: 'headlines',
+                document: article,
+            },
+            {
+                headers: {
+                    'api-key': process.env.DB_API_KEY,
                 },
-                {
-                    headers: {
-                        'api-key': process.env.DB_API_KEY,
-                    },
-                }
-            )
+            }
         )
+    )
     await Promise.allSettled(insertPromises)
     return insertArticles
 }
@@ -62,7 +76,7 @@ export async function getPersistedArticle(params) {
     return document
 }
 
-export async function getAllPersistedArticles() {
+export async function getLatestArticles({ limit = 20, projection = {} }) {
     const {
         data: { documents },
     } = await axios.post(
@@ -71,6 +85,9 @@ export async function getAllPersistedArticles() {
             dataSource: process.env.CLUSTER_NAME,
             database: process.env.DB_NAME,
             collection: 'headlines',
+            sort: { publishedAt: -1 },
+            projection,
+            limit,
         },
         {
             headers: {

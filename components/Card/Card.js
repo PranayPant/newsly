@@ -3,14 +3,10 @@ import Socials from '@components/Socials'
 import { trackClickEvent } from '@lib/ga'
 
 const Card = ({
-    article: { title, content, description, url, urlToImage, publishedAt },
+    article: { title, slug, content, urlToImage, publishedAt },
 }) => {
-    if (!urlToImage || !title || !content || !publishedAt) {
-        return <></>
-    }
-    const articleLink = encodeURI(
-        `/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`
-    )
+    const articleLink = encodeURI(`/articles/${slug}`)
+    const socialUrl = `https://newsapp.cf/articles/${slug}`
     const modPublishedAt = new Date(Date.parse(publishedAt)).toLocaleTimeString(
         'en-US',
         {
@@ -56,10 +52,7 @@ const Card = ({
                 </p>
                 <div className="flex pt-3">
                     <div className="flex-auto">
-                        <Socials
-                            url={`https://newsapp.cf/articles/${title}?content=${content}&description=${description}&url=${url}&urlToImage=${urlToImage}`}
-                            title={title}
-                        />
+                        <Socials url={socialUrl} title={title} />
                     </div>
                     <span className="text-xs h-fit self-end">
                         Updated at {modPublishedAt}
@@ -78,6 +71,7 @@ Card.propTypes = {
         }),
         author: PropTypes.string,
         title: PropTypes.string,
+        slug: PropTypes.string,
         description: PropTypes.string,
         url: PropTypes.string,
         urlToImage: PropTypes.string,
