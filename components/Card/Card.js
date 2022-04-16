@@ -3,7 +3,7 @@ import Socials from '@components/Socials'
 import { trackClickEvent } from '@lib/ga'
 
 const Card = ({
-    article: { title, slug, content, urlToImage, publishedAt },
+    article: { title, slug, content, url, urlToImage, publishedAt },
 }) => {
     const articleLink = encodeURI(`/articles/${slug}`)
     const socialUrl = `https://newsapp.cf/articles/${slug}`
@@ -42,7 +42,7 @@ const Card = ({
                     {modContent}{' '}
                     <a
                         className="text-blue-700 hover:underline"
-                        href={articleLink}
+                        href={url}
                         onClick={() => newsLinkEvent(title)}
                         target="_blank"
                         rel="noreferrer noopener"

@@ -25,7 +25,7 @@ export default function Home({ articles }) {
     }, [router.events])
 
     return (
-        <div>
+        <>
             <Head>
                 <meta
                     name="description"
@@ -46,7 +46,7 @@ export default function Home({ articles }) {
                     <Card key={article.slug} article={article} />
                 ))}
             </main>
-        </div>
+        </>
     )
 }
 
