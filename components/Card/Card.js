@@ -26,7 +26,15 @@ const Card = ({
     }
     return (
         <div className="sm:w-96 w-72 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col">
-            <img className="rounded-lg" src={urlToImage} alt={title}></img>
+            <div className="flex">
+                <img
+                    className="rounded-lg object-fill flex-auto"
+                    src={urlToImage}
+                    alt={title}
+                    width={500}
+                    height={300}
+                />
+            </div>
             <div className="flex flex-col flex-auto pt-3">
                 <a
                     className="text-2xl font-semibold hover:text-blue-700 hover:underline"
