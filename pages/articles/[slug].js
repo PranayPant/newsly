@@ -51,15 +51,15 @@ export default function Article({
 }
 
 export async function getStaticProps({ params: { slug } }) {
-    const { title, description, content, url, urlToImage } =
-        await getPersistedArticle({ slug })
+    let article
+    try {
+        article = await getPersistedArticle({ slug })
+    } catch (err) {
+        console.log('Error retreiving article:', err.response.data)
+    }
     return {
         props: {
-            title,
-            description,
-            content,
-            url,
-            urlToImage,
+            ...article,
         },
         revalidate: 1800,
     }
