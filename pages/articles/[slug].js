@@ -57,6 +57,7 @@ export async function getStaticProps({ params: { slug } }) {
     } catch (err) {
         console.log('Error retreiving article:', err.response.data)
     }
+    console.log('Fetched article for slug', article.slug)
     return {
         props: {
             ...article,
@@ -68,6 +69,10 @@ export async function getStaticProps({ params: { slug } }) {
 export async function getStaticPaths() {
     const latestArticles = await getLatestArticles({ projection: { slug: 1 } })
     const paths = latestArticles.map(({ slug }) => ({ params: { slug } }))
+    console.log(
+        'Built paths for slugs',
+        latestArticles.map(({ slug }) => slug)
+    )
     return {
         paths,
         fallback: 'blocking',
