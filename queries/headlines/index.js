@@ -52,7 +52,8 @@ export async function persistArticles(articles) {
             }
         )
     )
-    await Promise.allSettled(insertPromises)
+    const results = await Promise.allSettled(insertPromises)
+    console.log('Insert results', results)
     return insertArticles
 }
 
