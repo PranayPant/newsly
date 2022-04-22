@@ -56,13 +56,14 @@ Home.propTypes = {
 
 export async function getStaticProps() {
     const { articles } = await fetchHeadlines()
-    console.log('Fetched articles', articles)
+    console.log('Fetched', articles.length, 'articles')
     let finalArticles = []
     try {
         finalArticles = await persistArticles(articles)
     } catch (err) {
         console.log('Error inserting articles:', err.response.data)
     }
+    console.log('Final articles:', finalArticles.length)
     return {
         props: {
             articles: finalArticles,
