@@ -42,9 +42,16 @@ export default function Home({ articles }) {
                 <h1>Newsly: The News Hub</h1>
             </header>
             <main className="flex flex-wrap justify-evenly">
-                {articles.map((article) => (
-                    <Card key={article.slug} article={article} />
-                ))}
+                {articles.map((article, index) => {
+                    const eager = index >= 0 && index <= 5
+                    return (
+                        <Card
+                            key={article.slug}
+                            article={article}
+                            eager={eager}
+                        />
+                    )
+                })}
             </main>
         </>
     )
