@@ -4,6 +4,7 @@ import { trackClickEvent } from '@lib/ga'
 
 const Card = ({
     article: { title, slug, content, url, urlToImage, publishedAt },
+    eager,
 }) => {
     const articleLink = encodeURI(`/articles/${slug}`)
     const socialUrl = `https://newsapp.cf/articles/${slug}`
@@ -33,6 +34,7 @@ const Card = ({
                     alt={title}
                     width={500}
                     height={300}
+                    loading={eager ? 'eager' : 'lazy'}
                 />
             </div>
             <div className="flex flex-col flex-auto pt-3">
@@ -72,6 +74,7 @@ const Card = ({
 }
 
 Card.propTypes = {
+    eager: PropTypes.bool,
     article: PropTypes.shape({
         source: PropTypes.shape({
             id: PropTypes.string,
