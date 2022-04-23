@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import useSWR from 'swr'
 
 import { trackPageView } from '@lib/ga'
 import { fetchHeadlines, persistArticles } from '@queries/headlines'
@@ -9,6 +10,11 @@ import Card from '@components/Card'
 
 export default function Home({ articles }) {
     const router = useRouter()
+    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    const { data } = useSWR('/api/headlines', fetcher, {
+        fallbackData: articles,
+        refreshInterval: 1800,
+    })
     useEffect(() => {
         const handleRouteChange = (url) => {
             trackPageView(url)
@@ -62,7 +68,7 @@ Home.propTypes = {
 }
 
 export async function getStaticProps() {
-    const { articles } = await fetchHeadlines()
+    const articles = await fetchHeadlines()
     console.log('Fetched', articles.length, 'articles')
     let finalArticles = []
     try {
