@@ -10,7 +10,11 @@ export async function fetchHeadlines() {
             },
         }
     )
-    return data
+
+    return data.articles.filter(
+        ({ title, content, urlToImage, publishedAt }) =>
+            urlToImage && title && content && publishedAt
+    )
 }
 
 export async function persistArticles(articles) {
@@ -53,7 +57,10 @@ export async function persistArticles(articles) {
         )
     )
     const results = await Promise.allSettled(insertPromises)
-    console.log('Insert results', results)
+    console.log(
+        'Insert results',
+        results.map(({ status }) => status)
+    )
     return insertArticles
 }
 

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+
 import Socials from '@components/Socials'
 import { trackClickEvent } from '@lib/ga'
 
