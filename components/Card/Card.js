@@ -28,7 +28,7 @@ const Card = ({
         <div className="sm:w-96 w-72 m-2 p-3 bg-gray-200 rounded-lg flex-auto flex flex-col">
             <div className="flex">
                 <img
-                    className="rounded-lg object-fill flex-auto"
+                    className="rounded-lg object-fill flex-auto h-72"
                     src={urlToImage}
                     alt={title}
                     width={500}
